@@ -277,18 +277,81 @@
                           <input type="text" id="nombreRouter" placeholder="Nombre de la red" class="form-control">
                         </div>
                         <div class="row">
-                          <div class="col-lg-12">
+                          <div class="col-lg-8">
                             <div class="form-group">       
                               <label>Contraseña</label>
                               <input type="text" id="contrasena" placeholder="Contraseña" class="form-control">
                             </div>
                           </div>
-                          <!-- <div class="col-lg-4">
+                          <div class="col-lg-4">
                             <div class="form-group">   
                               <label>Automatico</label>     
-                              <input type="button" value="Generar" class="btn btn-primary">
+                              <input type="button" onclick="generatePassword()" value="Generar" class="btn btn-primary">
                             </div>
-                          </div> -->
+                          </div>
+                          <script>
+                            function generatePassword(){
+                                var password = "";
+                                var numOfgeneratedUpper = 0;
+                                var numOfgeneratedLower = 0;
+                                var numOfgeneratedSpecial = 0;
+                                var numOfgeneratedNumber = 0;
+                                var requirementsMet = false;
+                                
+                                var possibleUpper = new Array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+                                var possibleLower = new Array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z");
+                                var possibleSpecial = new Array("`","~","!","@","#","$","%","^","&","*","(",")","-","_","=","+","[","{","]","}","|",";","\\",":","'","\"",",","<",".",">","/","?");
+                                var possibleNumber = new Array("0","1","2","3","4","5","6","7","8","9");
+                                
+                                //***********Edit this section as required***********//
+                                var minNumOfUpper = 2;
+                                var minNumOfLower = 2;
+                                var minNumOfSpecial = 2;
+                                var minNumOfNumber = 2;
+                                var minPasswordLength = 8;
+                                var maxPasswordLength = 14; //null = no max length
+                                //***********End editable section***********//
+                                
+                                if(maxPasswordLength != null && maxPasswordLength < minPasswordLength){
+                                  alert("ERROR:\n\nNo se puede generar la contraseña\n\nLa longitud máxima requerida de la contraseña es menor que la longitud mínima requerida\n\nReporta el error al Administrador");
+                                  return;
+                                }
+                                
+                                while(requirementsMet == false){
+                                  var rand = randomNumberGenerator(4);
+                                  
+                                  if(rand == 0){
+                                    password += possibleUpper[(randomNumberGenerator(possibleUpper.length))];
+                                    numOfgeneratedUpper++;
+                                  }
+                                  else if(rand == 1){
+                                    password += possibleLower[(randomNumberGenerator(possibleLower.length))];
+                                    numOfgeneratedLower++;
+                                  }
+                                  else if(rand == 2){
+                                    password += possibleSpecial[(randomNumberGenerator(possibleSpecial.length))];
+                                    numOfgeneratedSpecial++;
+                                  }
+                                  else if(rand == 3){
+                                    password += possibleNumber[(randomNumberGenerator(possibleNumber.length))];
+                                    numOfgeneratedNumber++;
+                                  }
+                                  
+                                  if(maxPasswordLength != null && password.length > maxPasswordLength){
+                                    password = "";
+                                  }
+                                  
+                                  if(password.length >= minPasswordLength && numOfgeneratedUpper >= minNumOfUpper && numOfgeneratedLower >= minNumOfLower && numOfgeneratedSpecial >= minNumOfSpecial && numOfgeneratedNumber >= minNumOfNumber){
+                                    requirementsMet = true;
+                                  }
+                                }
+                                $("#contrasena").val(password);
+                              }
+                              
+                              function randomNumberGenerator(maxNum){
+                                return Math.floor(Math.random() * maxNum);
+                              }
+                          </script>
                         </div>
                         <div class="form-group">
                           <label>Fecha Modificación</label>
